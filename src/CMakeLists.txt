@@ -105,18 +105,29 @@ file(GLOB SOURCES   ${PROBREACH_SOURCE_DIR}/util/*.cpp
 set(SOURCES ${SOURCES} ${PROBREACH_BINARY_DIR}/parser/pdrh/pdrhparser.c ${PROBREACH_BINARY_DIR}/parser/pdrh/pdrhlexer.c)
 
 # adding executable
-add_executable(ProbReach ${SOURCES})
+add_executable(ProbReach-bin ${SOURCES})
+SET_TARGET_PROPERTIES(ProbReach-bin  PROPERTIES OUTPUT_NAME ProbReach)
+
+# adding library
+add_library(ProbReach ${SOURCES})
 
 # creating a bin folder and copying ProbReach binary there
-add_custom_command(TARGET ProbReach POST_BUILD
+add_custom_command(TARGET ProbReach-bin POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory ${PROBREACH_SOURCE_DIR}/../bin
     COMMAND ${CMAKE_COMMAND} -E copy ${PROBREACH_BINARY_DIR}/ProbReach ${PROBREACH_SOURCE_DIR}/../bin
     COMMENT "Copying ${PROBREACH_BINARY_DIR}/ProbReach to ${PROBREACH_SOURCE_DIR}/../bin")
 
+# creating a lib folder and copying ProbReach library there
+#add_custom_command(TARGET ProbReach POST_BUILD
+ #   COMMAND ${CMAKE_COMMAND} -E make_directory ${PROBREACH_SOURCE_DIR}/../lib
+  #  COMMAND ${CMAKE_COMMAND} -E copy ${PROBREACH_BINARY_DIR}/../../libProbReach.a ${PROBREACH_SOURCE_DIR}/../lib
+   # COMMAND ${CMAKE_COMMAND} -E remove ${PROBREACH_BINARY_DIR}/../../libProbReach.a 
+   # COMMENT "Copying ${PROBREACH_BINARY_DIR}/../../libProbReach.a to ${PROBREACH_SOURCE_DIR}/../lib")
+
 # linking libraries
-target_link_libraries(ProbReach ${DREAL_REL_DIR}/lib/libcapd.a)
-target_link_libraries(ProbReach ${DREAL_REL_DIR}/lib/libibex.a)
-target_link_libraries(ProbReach ${DREAL_REL_DIR}/lib/libprim.a)
+target_link_libraries(ProbReach-bin ${DREAL_REL_DIR}/lib/libcapd.a)
+target_link_libraries(ProbReach-bin ${DREAL_REL_DIR}/lib/libibex.a)
+target_link_libraries(ProbReach-bin ${DREAL_REL_DIR}/lib/libprim.a)
 # flag for FLEX and GSL
-target_link_libraries(ProbReach -lfl -lgsl)
+target_link_libraries(ProbReach-bin -lfl -lgsl)
 
