@@ -7,8 +7,12 @@ find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 
 # setting compiler flags
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -Wno-sign-compare -Wno-unused-variable -Wno-return-type -Wno-unused-function --std=c++11 -fopenmp -frounding-math")
+else ()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -Wno-sign-compare -Wno-unused-variable -Wno-return-type -Wno-unused-function --std=c++11 -fopenmp -frounding-math -static")
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+endif()
 
 # setting some environment variables
 set(PROBREACH_SOURCE_DIR ${PROJECT_SOURCE_DIR})
