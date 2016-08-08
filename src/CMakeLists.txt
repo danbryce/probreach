@@ -118,11 +118,11 @@ add_custom_command(TARGET ProbReach-bin POST_BUILD
     COMMENT "Copying ${PROBREACH_BINARY_DIR}/ProbReach to ${PROBREACH_SOURCE_DIR}/../bin")
 
 # creating a lib folder and copying ProbReach library there
-#add_custom_command(TARGET ProbReach POST_BUILD
- #   COMMAND ${CMAKE_COMMAND} -E make_directory ${PROBREACH_SOURCE_DIR}/../lib
-  #  COMMAND ${CMAKE_COMMAND} -E copy ${PROBREACH_BINARY_DIR}/../../libProbReach.a ${PROBREACH_SOURCE_DIR}/../lib
-   # COMMAND ${CMAKE_COMMAND} -E remove ${PROBREACH_BINARY_DIR}/../../libProbReach.a 
-   # COMMENT "Copying ${PROBREACH_BINARY_DIR}/../../libProbReach.a to ${PROBREACH_SOURCE_DIR}/../lib")
+add_custom_command(TARGET ProbReach POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${PROBREACH_SOURCE_DIR}/../lib
+    COMMAND ${CMAKE_COMMAND} -E copy ${PROBREACH_SOURCE_DIR}/../libProbReach.a ${PROBREACH_SOURCE_DIR}/../lib
+    COMMAND ${CMAKE_COMMAND} -E remove ${PROBREACH_SOURCE_DIR}/../libProbReach.a
+    COMMENT "Copying ${PROBREACH_SOURCE_DIR}/../libProbReach.a to ${PROBREACH_SOURCE_DIR}/../lib")
 
 # linking libraries
 target_link_libraries(ProbReach-bin ${DREAL_REL_DIR}/lib/libcapd.a)
